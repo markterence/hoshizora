@@ -1,16 +1,82 @@
-    <html lang="ja">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>星空 - Hoshizora</title>
-        <meta name="description" content="星空 (Hoshizora)" />
-        <link href="/static/style.css" rel="stylesheet" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
-        <script type="module" src="/src/client.ts"></script>
-      </head>
-      <body>
-        <div id="app"></div>
-      </body>
-    </html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>星空 - Hoshizora</title>
+  <meta name="description" content="星空 (Hoshizora)" />
+  <link href="/static/style.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/client.ts"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="hoshizora-container">
+      <div id="starfield" class="star-field">
+      </div>
+      <div class="content fade-in">
+        <h1 class="title">星空</h1>
+        <p class="subtitle">hoshizora</p>
+      </div>
+    </div>
+
+    <div class="story-section fade-in-delayed">
+      <div class="story-container">
+        <div class="story-content">
+          <div class="story-card">
+            <div class="story-marker">01</div>
+            <p class="story">
+              <strong>Hoshizora</strong> (星空, meaning "starry sky" in Japanese) began as one of those "I need this right
+              now" weekend project moments as a developer. While working on a GitHub repository, I found myself wanting
+              a simple, elegant way to showcase the stargazers and supporters — those people who take a moment to
+              appreciate your work with a click of a star — like a <em><i>nagareboshi</i></em> <sup>(shooting
+                star)</sup> in the starry sky.
+            </p>
+          </div>
+
+          <div class="story-card">
+            <div class="story-marker">02</div>
+            <div>
+              <p class="story">
+              There are plenty of GitHub badges and widgets out there, but sometimes you want something that feels more
+              personal or do some exploration. That's when <a href="https://github.com/markterence/hoshizora?utm_source=hoshizora.markterence.me" target="_blank" rel="noopener noreferrer">
+                <em>Hoshizora</em></a> was born - a simple service that
+              transforms your repository's stargazer data into beautiful generated SVG cards.
+            </p>
+            <p class="story">
+              See it in action in <a href="https://github.com/markterence/discord-quest-completer?tab=readme-ov-file&utm_source=hoshizora.markterence.me#%EF%B8%8F-use-cases" target="_blank" rel="noopener noreferrer">one of my repository in GitHub</a>.
+              <span 
+                style="font-size: 0.85rem; color: #ddd; font-weight: lighter; font-style: italic;"
+              >(It's the Stargazer card)</span>
+            </p>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-marker">03</div>
+            <p class="story">
+              <span style="font-weight: 300; font-size: 0.85rem;">2025年10月10日</span> &mdash; What started as a quick weekend project to scratch my own itch has grown into something I'm genuinely
+              excited about. The name <em>"Hoshizora"</em> felt perfect because each stargazer and sponsor is like a star in the
+              vast sky of open source.
+            </p>
+          </div>
+        </div>
+
+        <div class="story-footer">
+          <div class="divider"></div>
+          <div class="footer-content">
+            <!--<span class="footer-text"></span>-->
+            <span class="footer-date">2025年10月10日</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of story section + footer -->
+    <div id="bottom-starfield" class="bottom-star-field"></div>
+  </div>
+</body>
+
+</html>
