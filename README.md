@@ -1,11 +1,17 @@
+
+
+<p align="center">
+ <img width="144px" src="public/static/image.png" align="center" alt="hoshizora" />
+ <h2 align="center">星空 <i>(hoshizora)</i></h2>
+</p>
+
+
 To install dependencies:
 ```sh
-bun install
+pnpm install
 ```
 
 To run:
 ```sh
-bun run dev
+pnpm run dev:vite
 ```
-
-open http://localhost:3000
