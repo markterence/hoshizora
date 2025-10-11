@@ -75,7 +75,7 @@ export const getRepositoryInfo = async (owner: string, name: string, count: numb
                 stargazerCount
                 stargazers(first: $count, orderBy: {field: STARRED_AT, direction: DESC}) {
                     nodes {
-                        avatarUrl 
+                        avatarUrl (size: 48)
                         login 
                     }
                 }
