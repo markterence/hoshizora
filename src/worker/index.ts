@@ -25,7 +25,7 @@ app
       return c.text('not allowed', { status: 403 });
     }
   }
-  
+
   const repoInfo = await getRepositoryInfo(owner, repo, 8).catch(() => {});
   
   if (!repoInfo) {
@@ -53,7 +53,7 @@ app
 })
 .get('/test', async (c) => {
   if (!import.meta.env.PROD) {
-    const { longNamesStargazersTestData, originalStargazersTestData } = await import('../.tmp/stargazers-test-data')
+    const { longNamesStargazersTestData, originalStargazersTestData } = await import('../.test-data/stargazers-test-data')
     const data = longNamesStargazersTestData();
     for (let i = 0; i < data.stargazers.nodes.length; i++) {
       data.stargazers.nodes[i].avatarUrl = await mapImageURLToDataURL(data.stargazers.nodes[i].avatarUrl);
