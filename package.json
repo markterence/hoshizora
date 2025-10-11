@@ -1,12 +1,26 @@
 {
   "name": "hoshizora",
+  "type": "module",
+  "private": true,
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev:bun": "bun run --hot src/index.ts",
+    "dev:vite": "vite",
+    "build:vite": "vite build --mode client && vite build",
+    "preview:vite": "wrangler pages dev",
+    "deploy:vite": "npm run build && wrangler pages deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "hono": "^4.9.10"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@cloudflare/vite-plugin": "^1.13.12",
+    "@hono/vite-build": "^1.2.0",
+    "@hono/vite-dev-server": "^0.18.2",
+    "@types/bun": "latest",
+    "@types/node": "^24.7.1",
+    "vite": "^6.3.5",
+    "wrangler": "^4.4.0"
   }
 }
