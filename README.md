@@ -42,3 +42,11 @@ GET /github-stargazers/:owner/:repo
 | Query | Description | Value
 | --- | --- | --- |
 | `show_usernames` | Should it show the first three user who starred the repo. | Example Value: `true`, `1` |
+
+## LICENSE
+
+- Website code, design, and content are licensed under [CC BY 4.0](LICENSE-CCBY).
+  - **TL;DR:** You are free to use, share, and adapt as long as you give appropriate credit.
+- All backend source code files (backend logic if present) are licensed under the [MIT License](LICENSE).
+
+See the individual license files for full terms.
