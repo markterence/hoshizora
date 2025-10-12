@@ -82,6 +82,41 @@ app
       }
     });
   }
+})
+.get('/demo-stargazers', async (c) => {
+  const show_usernames = c.req.query('show_usernames');
+  const empty = c.req.query('empty');
+
+  const shouldShowUsernames = show_usernames === 'true' || show_usernames === '1';
+  const shouldShowEmptyCard = empty === 'true' || empty === '1';
+  const { originalStargazersTestData } = await import('../.test-data/stargazers-test-data')
+  const data = shouldShowEmptyCard ? {
+    id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
+    name: 'Hello-World',
+    stargazerCount: 0,
+    forkCount: 0,
+    stargazers: {
+      nodes: []
+    }
+  } : originalStargazersTestData;
+
+  for (let i = 0; i < data.stargazers.nodes.length; i++) {
+    data.stargazers.nodes[i].avatarUrl = await mapImageURLToDataURL(data.stargazers.nodes[i].avatarUrl);
+  }
+
+  return c.body(createStargazerCard(data, {
+    shouldShowUsernames: shouldShowUsernames,
+    title: "Recent Stargazers",
+    showTitle: true,
+    extra: {
+      owner: 'markterence',
+    }
+  }), {
+    headers: {
+      'Content-Type': 'image/svg+xml'
+    }
+  });
+
 });
 
 export default app
