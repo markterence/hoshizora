@@ -109,4 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
             storySection.classList.add('animate');
         }
     }, 800);
+
+    setTimeout(() => {
+        const gratitudeSection = document.querySelectorAll('.gratitude-fade-in');
+        if (gratitudeSection) {
+            gratitudeSection.forEach(section => {
+                section.classList.add('animate');
+            });
+        }
+    }, 1200);
 });
