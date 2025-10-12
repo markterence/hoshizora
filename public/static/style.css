@@ -27,15 +27,22 @@ body::-webkit-scrollbar {
 }
 
 a {
-    color: #9574f8;
+    color: #60a5fa !important;
     text-decoration: none;
     position: relative;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-bottom: 1px solid transparent;
 }
 
+a em {
+    color: #60a5fa !important;
+}
+a:hover em {
+    color: #d8b4fe !important;
+}
+
 a:hover {
-    color: #a78bfa;
+    color: #d8b4fe !important;
     border-bottom-color: rgba(167, 139, 250, 0.5);
 }
 
@@ -51,7 +58,7 @@ a::after {
     left: 0;
     width: 0;
     height: 1px;
-    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    background: linear-gradient(90deg, #60a5fa, #c084fc);
     transition: width 0.2s ease-out;
 }
 
@@ -311,7 +318,7 @@ a:hover::after {
 }
 
 .footer-license a {
-    color: #60a5fa;
+    color: #60a5fa !important;
     text-decoration: none;
     font-size: inherit;
 }
