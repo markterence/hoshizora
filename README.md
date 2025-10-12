@@ -5,7 +5,45 @@
  <h2 align="center">星空 <i>(hoshizora)</i></h2>
 </p>
 
+
 - [The Blog](https://notes.markterence.me/66116/hoshizora-one-of-my-quick-weekend-project)
+
+<h2></h2>
+
+<p align="center">
+<img src="https://hoshizora.markterence.me/github-stargazers/markterence/hoshizora?show_usernames=1" align="center" alt="markterence-hoshizora" />
+</p>
+
+
+## Demo
+
+<p>Show usernames:</p>
+<img src="https://hoshizora.markterence.me/demo-stargazers?show_usernames=1" alt="demo-with-data" />
+
+<p>Hide usernames:</p>
+<img src="https://hoshizora.markterence.me/demo-stargazers?show_usernames=0" alt="demo-do-not-display-username" /> 
+
+<p>Empty:</p>
+<img src="https://hoshizora.markterence.me/demo-stargazers?empty=1&show_usernames=1" alt="demo-empty" /> 
+
+**Example snippet:**
+
+```html
+<img src="https://hoshizora.markterence.me/demo-stargazers?show_usernames=1" alt="demo-with-data" />
+<img src="https://hoshizora.markterence.me/demo-stargazers?show_usernames=0" alt="demo-do-not-display-username" /> 
+<img src="https://hoshizora.markterence.me/demo-stargazers?empty=1&show_usernames=1" alt="demo-empty" /> 
+```
+
+## Live
+
+```
+https://hoshizora.markterence.me/github-stargazers/:github-username/:repo?show=show_usernames=1
+```
+
+Currently, the live version only accept my repositories(`markterence`) as I haven't set up a caching configuration and it's not production ready. This is also a precaution to avoid hitting GitHub API rate limits. You can open an issue to request adding your GitHub user/org handle to the allowed list (it must be your own not someone else's or your Github org you manage).
+
+
+## Development
 
 To install dependencies:
 ```sh
