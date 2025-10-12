@@ -4,6 +4,7 @@ import { createStargazerCard } from '../cards/stargazers';
 import { encodeBase64 } from 'hono/utils/encode';
 import { BACKEND_ROUTES } from './config';
 import { mapImageURLToDataURL } from '../utils/common';
+import { sha256 } from 'hono/utils/crypto';
  
 const app = new Hono<{ Bindings: Cloudflare.Env}>();
 
@@ -38,6 +39,9 @@ app
   }
   const show_usernames = c.req.query('show_usernames');
   const shouldShowUsernames = show_usernames === 'true' || show_usernames === '1';
+  
+  const hash = await sha256(JSON.stringify(data));
+  const etag = hash ? hash.substring(0, 16) : undefined;
   return c.body(createStargazerCard(data, {
     shouldShowUsernames: shouldShowUsernames,
     title: "Recent Stargazers",
@@ -47,7 +51,9 @@ app
     }
   }), {
     headers: {
-      'Content-Type': 'image/svg+xml'
+      'Content-Type': 'image/svg+xml',
+      'Cache-Control': 'max-age=300, s-maxage=300, stale-while-revalidate=900',
+      'ETag': etag,
     }
   });
 })
@@ -60,6 +66,7 @@ app
     }
     const show_usernames = c.req.query('show_usernames');
     const shouldShowUsernames = show_usernames === 'true' || show_usernames === '1';
+
     return c.body(createStargazerCard(data, {
       shouldShowUsernames: shouldShowUsernames,
       title: "Recent Stargazers",
