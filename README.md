@@ -23,7 +23,7 @@
 <p>Hide usernames:</p>
 <img src="https://hoshizora.markterence.me/demo-stargazers?show_usernames=0" alt="demo-do-not-display-username" /> 
 
-<p>Empty: (default message is "A quiet night sky" and cannot be changed)</p>
+<p>Empty, when no stargazers yet: (default message is "A quiet night sky" and cannot be changed)</p>
 <img src="https://hoshizora.markterence.me/demo-stargazers?empty=1&show_usernames=1" alt="demo-empty" /> 
 
 **Example snippet:**
