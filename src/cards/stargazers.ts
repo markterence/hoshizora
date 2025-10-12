@@ -1,4 +1,4 @@
-import { RepositoryStargazerInfo, Stargazers } from "../types";
+import { RepositoryStargazerInfo, StargazerUser } from "../types";
 import { truncate } from "../utils/common";
 import { useSVGCard } from "../utils/svg-card";
 
@@ -110,7 +110,7 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
     }
     `;
 
-    const numStargazersToShow = () => {
+    const resolveNumAvatarsToShow = () => {
         let num = COUNT_AVATARS;
         if (COUNT_AVATARS > MAX_AVATARS) {
             num = MAX_AVATARS;
@@ -123,18 +123,26 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
         return num;
     }
 
-    const stargazerTotal = numStargazersToShow();
-    const stargazersToShow = stargazers.nodes.slice(0, stargazerTotal);
+    const numStargazerAvatarsToShow = resolveNumAvatarsToShow();
+    
+    const getStargazersToDisplay = () => {
+        return stargazers.nodes.slice(0, numStargazerAvatarsToShow);
+    }
+
     // Total Count of stargazers - the names shown
     let othersCount = stargazerCount - NUM_NAMES_TO_SHOW;
     let avatarClipPaths: string[] = [];
     let didBreakLineText = false;
 
-    function createAvatars (stargazers: Stargazers) {
+    function createAvatars (stargazerUsers: StargazerUser[]) {
+        if (stargazerUsers.length === 0) {
+            return '';
+        }
+
         let avatarsArr: string[] = [];
-        let usernamesArr: string[] = [];
+        // Avatar spacing offset (too little or negative will cause overlapping avatars)
         const offsetX = 4;
-        stargazersToShow.forEach((stargazer, index) => {
+        stargazerUsers.forEach((stargazer, index) => {
             // Non-overlapping avatars
             const x = AVATAR_START_X + index * (AVATAR_SIZE + offsetX);
             const clipPathId = `avatar-clip-${index}`;
@@ -166,65 +174,75 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
                 />
             `);
         });
+ 
+        return `<!-- avatar fragment -->${avatarsArr.join('').trim()}`
+    }
 
-        // The breakpoints here puts the "and X others" part on a new line 
-        // to fix the overflow issue when there are many stargazers and names are long.
-        const firstThreeNames = stargazersToShow.slice(0, NUM_NAMES_TO_SHOW);
-        const breakpointStrArr: string[] = [];
-        const breakpointUsernames: string[] = [];
+    /**
+     * Creates the message: "@{user1}, {user2}, {user3} and {count} others starred this repository".
+     */
+    function renderStargazerNames(stargazerUsers: StargazerUser[]) {
+        if (!config?.shouldShowUsernames) {
+            return '';
+        }
+
+        const createUsernameSVGText = (truncatedUsernames: string[]): string[] => {
+            let elements: string[] = [];
+            truncatedUsernames.forEach((username) => {
+                elements.push(`<tspan class="username">${username}</tspan>`);
+            });
+            return elements;
+        }
+
+        let usernamesArr: string[] = [];
+        // The breakpoints here puts the "and X others" part on a new line.
+        // This fixes the overflow issue when there are many stargazers and names are long.
+        const firstThreeNames = stargazerUsers.slice(0, NUM_NAMES_TO_SHOW);
+        const breakpointStringTestArr: string[] = [];
+
         firstThreeNames.forEach((stargazer, index) => {
-            const username = truncate(stargazer.login, 12);
-            usernamesArr.push(`<tspan class="username">@${username}</tspan>`);
-
-            breakpointUsernames.push(`@${username}`);
+            const truncatedUsername = truncate(stargazer.login, 12);
+            usernamesArr.push(`@${truncatedUsername}`);
         });
 
+        const renderSuffixPhrase = (): string => {
+            let markup = '';
 
-        const renderOthersText = () => { 
-            // No need to do anything if usernames are not shown.
-            if (!config?.shouldShowUsernames) {
-                return '';
-            }
-
-            breakpointStrArr.push(breakpointUsernames.join(', '));
-
+            // determine if we need to break line when the "first three usernames + othersCount" is too long
+            breakpointStringTestArr.push(usernamesArr.join(', '));
             if (othersCount > 0) {
-                const othersCountStr = `${othersCount} others`
+                // When there are other more users.
+                breakpointStringTestArr.push(` and ${othersCount} others`);
+                const breakpointStringTest = breakpointStringTestArr.join('');
+                const breakpointLen = breakpointStringTest.length;
 
-                breakpointStrArr.push(` and ${othersCountStr}`);
+                // 49 is the number of characters that fit in one line in this design to avoid overflow.
+                didBreakLineText = breakpointLen >= 49;
 
-                const breakpointStr = breakpointStrArr.join('');
-                const breakpointLen = breakpointStr.length; 
-
-                const renderWordBreak = () => {
-                    if (breakpointLen >= 49) {
-                        didBreakLineText = true
-                        return `<tspan x="60" dy="1.2em">starred this repository</tspan>`
-                    }
-                    return `<tspan> starred this repository</tspan>`
-                };
-
-                return `
-                    <tspan> and </tspan>
-                    <tspan class="others-count">${othersCountStr}</tspan>
-                    ${renderWordBreak()}
-                `
+                const othersCountHuman = othersCount.toLocaleString();
+                markup += '<tspan> and </tspan>';
+                markup += `<tspan class="others-count">${othersCountHuman} others</tspan>`;
             }
-            return `<tspan> starred this repository</tspan>`;
+
+            if (othersCount > 0 && didBreakLineText) {
+                // Have the "starred this repository" text positioned below the username line.
+                markup+= `<tspan x="60" dy="1.2em">starred this repository</tspan>`
+            } else {
+                markup+= `<tspan> starred this repository</tspan>`
+            }
+
+            return markup;
         }
 
-        const renderUsernames = () => {
-            if (!config?.shouldShowUsernames) {
-                return '';
-            }
-            return `
-                <text x="56" y="112" class="label-text">
-                    ${usernamesArr.join('<tspan>, </tspan>')}
-                    ${renderOthersText()}
-                </text>
-            `
-        }
+        return `
+            <text x="56" y="112" class="label-text">
+                ${createUsernameSVGText(usernamesArr).join('<tspan>, </tspan>')}
+                ${renderSuffixPhrase()}
+            </text>
+        `;
+    }
 
+    function renderAvatarGroup(stargazerUsers: StargazerUser[]) {
         const renderTitle = () => {
             if (config?.showTitle) {
                 return (`
@@ -232,13 +250,18 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
                         ${config?.title || 'Stargazers'}
                     </text>
                 `);
-            }
+            } 
+            return '';
         }
+
+        const avatarsFragment = createAvatars(stargazerUsers);
+        const usernamesNode = renderStargazerNames(stargazerUsers);
         return `
+            <!-- Avatar Group -->
             <g class="avatar-group">
                 ${renderTitle()}
-                ${avatarsArr.join('').trim()}
-                ${renderUsernames().trim()}
+                ${avatarsFragment}
+                ${usernamesNode}
             </g>
         `
     }
@@ -316,14 +339,31 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
     </g>
     `;
 
-    const avatarGroup = createAvatars(stargazers);
+    const stargazersToDisplay = getStargazersToDisplay();
+    const avatarGroup = renderAvatarGroup(stargazersToDisplay);
+
     const svgContent: string[] = [];
     svgContent.push(`<rect width="100%" height="100%" fill="#001428" rx="8" ry="8" />`)
-    svgContent.push(`
-        <defs>
-            ${avatarClipPaths.join('')}
-        </defs>
-    `);
+    // when no stargazers
+    if (stargazerCount === 0) { 
+        svgContent.push(`
+            <g class="no-stargazers-group">
+                <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" class="label-text" style="font-size:16px; font-weight:500; fill:#aaa;">
+                    Not starred yet
+                </text>
+                <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" class="label-text" style="font-style: italic; font-size:0.9rem; fill:#777;">
+                    A quiet night sky
+                </text>
+            </g>
+        `);
+    }
+    else {
+        svgContent.push(`
+            <defs>
+                ${avatarClipPaths.join('')}
+            </defs>
+        `);
+    }
     svgContent.push(avatarGroup);
     svgContent.push(theStars);
 
