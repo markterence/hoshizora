@@ -31,7 +31,7 @@ ALLOWED_GITHUB_OWNERS=user1,user2,organization1
 
 ## Endpoints
 
-### Stargazer
+### Stargazer SVG Card
 
 ```txt
 GET /github-stargazers/:owner/:repo
