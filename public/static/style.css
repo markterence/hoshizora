@@ -414,3 +414,59 @@ a:hover::after {
   }
 }
 
+
+/* Gratitude Section */
+.gratitude-section {
+  padding: 4rem 2rem 4rem 2rem;
+  text-align: center;
+  background: transparent;
+}
+
+.gratitude-container {
+  max-width: 100%;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.gratitude-text {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: lighter;
+  color: #e2e8f0c0;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+  white-space: nowrap;
+  overflow: visible;
+} 
+.gratitude-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+.gratitude-fade-in.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .gratitude-section {
+    padding: 4rem 1rem 3rem 1rem;
+  }
+  
+  .gratitude-text {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    letter-spacing: 0.02em;
+  }
+  
+  .gratitude-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gratitude-text {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    letter-spacing: 0.01em;
+  }
+}
