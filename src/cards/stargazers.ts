@@ -186,6 +186,10 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
             return '';
         }
 
+        if (stargazerUsers.length === 0) {
+            return '';
+        }
+
         const createUsernameSVGText = (truncatedUsernames: string[]): string[] => {
             let elements: string[] = [];
             truncatedUsernames.forEach((username) => {
@@ -206,6 +210,10 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
         });
 
         const renderSuffixPhrase = (): string => {
+            if (stargazerUsers.length === 0) { 
+                return '';
+            }
+
             let markup = '';
 
             // determine if we need to break line when the "first three usernames + othersCount" is too long
