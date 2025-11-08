@@ -97,6 +97,7 @@ app
     name: 'Hello-World',
     owner: {
       login: 'johndoe',
+      repoName: 'demo',
     },
     stargazerCount: 0,
     forkCount: 0,
@@ -115,7 +116,8 @@ app
     showTitle: true,
     extra: {
       owner: 'markterence',
-    }
+      repoName: 'demo',
+    },
   }), {
     headers: {
       'Content-Type': 'image/svg+xml'
