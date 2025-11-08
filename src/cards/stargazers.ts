@@ -1,7 +1,7 @@
 import { RepositoryStargazerInfo, StargazerUser } from "../types";
 import { truncate } from "../utils/common";
 import { useSVGCard } from "../utils/svg-card";
-
+import { GithubSVG } from "./icons/github-svg"
 export interface StargazerCardConfig {
     shouldShowUsernames?: boolean;
     title?: string;
@@ -9,14 +9,14 @@ export interface StargazerCardConfig {
     extra?: Record<string, any>;
 }
 export function createStargazerCard(data: RepositoryStargazerInfo, config: StargazerCardConfig) {
-    const MAX_AVATARS = 8;
+    const MAX_AVATARS = 9;
     const NUM_NAMES_TO_SHOW = 3;
-    const COUNT_AVATARS = 8;
+    const COUNT_AVATARS = 9;
     const AVATAR_CLIP_PATH_CX_START = 80;
-    const AVATAR_CLIP_PATH_CY = 66;
+    const AVATAR_CLIP_PATH_CY = 74;
     const AVATAR_START_X = 56;
-    const AVATAR_Y = 42;
-    const AVATAR_SIZE = 48;
+    const AVATAR_Y = 54;
+    const AVATAR_SIZE = 42;
     const AVATAR_GROUP_CSS_TRANSLATE_Y = '-10px';
     const AVATAR_GROUP_CSS_TRANSLATE_Y_BREAK = '-16px';
     const AVATAR_GROUP_CSS_TRANSLATE_Y_NO_NAMES = '0px';
@@ -249,12 +249,32 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
             </text>
         `;
     }
+    
+        const renderRepoName = () => {
+            if (config?.extra?.repoName) {
+                return (`
+                    <g transform="translate(20, 0)">
+                        <svg x="0" y="4" width="20" height="20" fill="#ffffff">
+                            <use href="#github-icon" />
+                        </svg>
+                        <text x="26"
+                            y="20"
+                            style="font-size:16px; font-weight:600;" fill="#ffffff"
+                            class="label-text"
+                        >
+                        <tspan>${config.extra.owner}</tspan>/<tspan>${config.extra.repoName}</tspan>
+                        </text> 
+                    </g>
+                `);
+            }
+            return '';
+        }
 
     function renderAvatarGroup(stargazerUsers: StargazerUser[]) {
         const renderTitle = () => {
             if (config?.showTitle) {
                 return (`
-                    <text x="58" y="32" class="label-text" style="font-size:18px; font-weight:600;">
+                    <text x="58" y="46" class="label-text" style="font-size:16px; font-weight:600;">
                         ${config?.title || 'Stargazers'}
                     </text>
                 `);
@@ -262,12 +282,15 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
             return '';
         }
 
+
         const avatarsFragment = createAvatars(stargazerUsers);
         const usernamesNode = renderStargazerNames(stargazerUsers);
         return `
             <!-- Avatar Group -->
+            ${renderRepoName()}
             <g class="avatar-group">
                 ${renderTitle()}
+     
                 ${avatarsFragment}
                 ${usernamesNode}
             </g>
@@ -286,7 +309,7 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
         }
 
         if (didBreakLineText && (config?.showTitle && config?.shouldShowUsernames)) {
-            cssTemplateVars.avatarGroupTranslateY = '-8px';
+            cssTemplateVars.avatarGroupTranslateY = '-4px';
         } else if (didBreakLineText) {
             // Set a new translateY for avatar-group to adjust the position
             // when the "and X others" part is on a new line.
@@ -351,6 +374,7 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
     const avatarGroup = renderAvatarGroup(stargazersToDisplay);
 
     const svgContent: string[] = [];
+    svgContent.push(GithubSVG());
     svgContent.push(`<rect width="100%" height="100%" fill="#001428" rx="8" ry="8" />`)
     // when no stargazers
     if (stargazerCount === 0) { 

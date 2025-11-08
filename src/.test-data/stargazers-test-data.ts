@@ -2,6 +2,9 @@ const originalStargazersTestData = {
     "id": "someRandomID",
     "name": "some-name",
     "stargazerCount": 43,
+    "owner": {
+        "login": "some-owner"
+    },
     "stargazers": {
         "nodes": [
             {
@@ -35,6 +38,10 @@ const originalStargazersTestData = {
             {
                 "avatarUrl": "https://picsum.photos/id/1011/100/100.jpg",
                 "login": "user123"
+            },
+            {
+                "avatarUrl": "https://picsum.photos/id/1011/100/100.jpg",
+                "login": "user123asd"
             }
         ]
     },

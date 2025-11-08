@@ -71,7 +71,9 @@ export const getRepositoryInfo = async (owner: string, name: string, count: numb
             repository(owner: $owner, name: $name) {
                 id
                 name,
-                
+                owner {
+                    login,
+                }
                 stargazerCount
                 stargazers(first: $count, orderBy: {field: STARRED_AT, direction: DESC}) {
                     nodes {

@@ -27,8 +27,8 @@ app
     }
   }
 
-  const repoInfo = await getRepositoryInfo(owner, repo, 8).catch(() => {});
-  
+  const repoInfo = await getRepositoryInfo(owner, repo, 9).catch(() => {});
+
   if (!repoInfo) {
     return c.text('no data');
   }
@@ -48,7 +48,8 @@ app
     title: "Recent Stargazers",
     showTitle: true,
     extra: {
-      owner,
+      owner: data.owner.login,
+      repoName: data.name,
     }
   }), {
     headers: {
@@ -74,6 +75,7 @@ app
       title: "Recent Stargazers",
       showTitle: true,
       extra: {
+        repoName: data.name,
         owner: 'some-owner',
       }
     }), {
@@ -93,6 +95,9 @@ app
   const data = shouldShowEmptyCard ? {
     id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
     name: 'Hello-World',
+    owner: {
+      login: 'johndoe',
+    },
     stargazerCount: 0,
     forkCount: 0,
     stargazers: {

@@ -12,4 +12,7 @@ export interface RepositoryStargazerInfo {
     stargazerCount: number;
     forkCount: number;
     stargazers: StargazerNodes;
+    owner: {
+        login: string;
+    }
 }
