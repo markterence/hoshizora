@@ -42,7 +42,7 @@ app
   
   const hash = await sha256(JSON.stringify(data));
   const etag = hash ? hash.substring(0, 16) : undefined;
-  const expiresDate = new Date(Date.now() + 10 * 1000);
+  const expiresDate = new Date(Date.now() + 16 * 60 * 60 * 1000);
   return c.body(createStargazerCard(data, {
     shouldShowUsernames: shouldShowUsernames,
     title: "Recent Stargazers",
@@ -53,7 +53,7 @@ app
   }), {
     headers: {
       'Content-Type': 'image/svg+xml',
-      'Cache-Control': 'max-age=10, s-maxage=10, stale-while-revalidate=60',
+      'Cache-Control': 'max-age=57600, s-maxage=57600, stale-while-revalidate=60',
       'ETag': etag,
       'Expires': expiresDate.toUTCString()
     }
