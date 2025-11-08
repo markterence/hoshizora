@@ -380,10 +380,10 @@ export function createStargazerCard(data: RepositoryStargazerInfo, config: Starg
     if (stargazerCount === 0) { 
         svgContent.push(`
             <g class="no-stargazers-group">
-                <text x="50%" y="40%" dominant-baseline="middle" text-anchor="middle" class="label-text" style="font-size:16px; font-weight:500; fill:#aaa;">
+                <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" class="label-text" style="font-size:16px; font-weight:500; fill:#aaa;">
                     Not starred yet
                 </text>
-                <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" class="label-text" style="font-style: italic; font-size:0.9rem; fill:#777;">
+                <text x="50%" y="68%" dominant-baseline="middle" text-anchor="middle" class="label-text" style="font-style: italic; font-size:0.9rem; fill:#777;">
                     A quiet night sky
                 </text>
             </g>
